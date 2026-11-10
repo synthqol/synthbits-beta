@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KooBits - Login</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      background-color: #ffffff;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .page-wrapper {
+      display: flex;
+      width: 100vw;
+      min-height: 100vh;
+    }
+
+    .left-panel {
+      width: 40%;
+      min-width: 320px;
+      background-color: #ffffff;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid #eaeaea;
+    }
+
+    .cp-header {
+      color: #7b78de;
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+    }
+
+    .cp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    .cp-table th {
+      text-align: left;
+      color: #888;
+      font-weight: 700;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #efefef;
+    }
+
+    .cp-table td {
+      padding: 8px 0;
+      color: #555;
+      font-weight: 600;
+      border-bottom: 1px solid #f8f8f8;
+    }
+
+    .illustration-area {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+
+    .icon-img {
+      width: 180px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .right-panel {
+      flex: 1;
+      background: radial-gradient(circle at 50% 30%, #a4b2ff 0%, #7b83f5 50%, #686de0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .top-nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.85rem;
+      font-weight: 700;
+      z-index: 5;
+    }
+
+    .top-nav a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .sparkle {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.8);
+      pointer-events: none;
+    }
+
+    .sparkle-1 { top: 20%; left: 15%; font-size: 0.5rem; }
+    .sparkle-2 { top: 65%; right: 12%; font-size: 1.8rem; }
+    .sparkle-3 { bottom: 20%; left: 20%; font-size: 0.6rem; }
+    .sparkle-4 { bottom: 25%; right: 25%; font-size: 0.4rem; }
+
+    .login-container {
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 5;
+      margin: auto 0;
+    }
+
+    .brand-logo-img {
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 24px;
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 30px 24px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .input-group {
+      width: 100%;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      font-size: 0.95rem;
+      color: #444;
+      font-weight: 600;
+      background: #ffffff;
+    }
+
+    .input-field::placeholder {
+      color: #a0a5ba;
+    }
+
+    .password-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .password-wrapper .input-field {
+      flex: 1;
+    }
+
+    .show-password {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .show-password input {
+      cursor: pointer;
+      width: 15px;
+      height: 15px;
+      accent-color: #686de0;
+    }
+
+    .error-message {
+      color: #ffe6e6;
+      background-color: rgba(255, 0, 0, 0.2);
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-align: center;
+      display: none;
+    }
+
+    .btn-login {
+      width: 100%;
+      background: #ffa800;
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 25px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 168, 0, 0.4);
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 6px;
+    }
+
+    .btn-login:hover {
+      background: #ff9900;
+      transform: translateY(-1px);
+    }
+
+    .mode-switch-text {
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .mode-switch-text a {
+      color: #ffffff;
+      text-decoration: underline;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .anon-warning {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .anon-warning a {
+      color: #ffffff;
+      text-decoration: underline;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .footer-link {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-bottom: 10px;
+      z-index: 5;
+    }
+
+    .btn-support {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: #ff5900;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      .left-panel { display: none; }
+      .login-card { background: transparent; backdrop-filter: none; border: none; padding: 0; }
+      .btn-support { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <aside class="left-panel">
+      <div>
+        <div class="cp-header">Latest CP Submitted</div>
+        <table class="cp-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>School</th>
+              <th>Latest CP</th>
+              <th>Submission Time</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Mohamed*****</td><td>🏫</td><td>3</td><td>10:00, 2026-Aug-02</td><td>🇰🇪</td></tr>
+            <tr><td>Mohamed*****</td><td>🏫</td><td>2</td><td>10:00, 2026-Aug-02</td><td>🇰🇪</td></tr>
+            <tr><td>Abigail*****</td><td>🦁</td><td>1</td><td>08:59, 2026-Aug-02</td><td>🇮🇩</td></tr>
+            <tr><td>Lee Lam*****</td><td>🛡️</td><td>1</td><td>08:59, 2026-Aug-02</td><td>🇭🇰</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="illustration-area">
+        <img src="icon.png" alt="App Icon" class="icon-img">
+      </div>
+    </aside>
+
+    <main class="right-panel">
+      <div class="sparkle sparkle-1">✦</div>
+      <div class="sparkle sparkle-2">✦</div>
+      <div class="sparkle sparkle-3">✦</div>
+      <div class="sparkle sparkle-4">✦</div>
+
+      <div class="top-nav">
+        <span id="navTitle">KooBits Login</span>
+        <a href="#"><i class="fa-solid fa-house"></i></a>
+      </div>
+
+      <div class="login-container">
+        <img src="icon.png" alt="KooBits Logo" class="brand-logo-img">
+
+        <!-- EMAIL LOGIN / SIGNUP FORM (PAGE 1) -->
+        <form class="login-card" id="emailAuthForm">
+          <div id="emailErrorAlert" class="error-message"></div>
+
+          <div class="input-group">
+            <input type="email" id="emailInput" class="input-field" placeholder="Enter your Email ID" required autocomplete="email">
+          </div>
+
+          <div class="input-group password-wrapper">
+            <input type="password" id="passwordInput" class="input-field" placeholder="Enter your password" required autocomplete="current-password">
+            <label class="show-password">
+              <input type="checkbox" id="togglePassword"> Show
+            </label>
+          </div>
+
+          <button type="submit" id="emailSubmitBtn" class="btn-login">Login</button>
+        </form>
+
+        <!-- ANONYMOUS GUEST FORM (PAGE 2) -->
+        <form class="login-card" id="anonAuthForm" style="display: none;">
+          <div id="anonErrorAlert" class="error-message"></div>
+
+          <div class="input-group">
+            <input type="text" id="usernameInput" class="input-field" placeholder="Enter your Username" autocomplete="off">
+          </div>
+
+          <button type="submit" id="anonSubmitBtn" class="btn-login">Start Playing</button>
+          
+          <div class="anon-warning" id="anonWarningText">
+            You cannot save your data with anonymous mode. Sign up with email instead. <a id="switchToEmailLink">sign up</a>
+          </div>
+        </form>
+
+        <div class="mode-switch-text" id="modeSwitchContainer">
+          <span id="switchPromptText">Not a member?</span> <a id="toggleAuthModeBtn">Sign up Now</a> <a id="switchToAnonBtn">or Log in/sign up Anonymously</a>
+        </div>
+
+      </div>
+
+      <a class="footer-link">Need Help?</a>
+      <button class="btn-support"><i class="fa-solid fa-circle-question"></i> Support</button>
+    </main>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInAnonymously, updateProfile } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAgae4NHz88JAEMQ538PjDwGU-YF52KBMk",
+      authDomain: "synthbits-f5cbd.firebaseapp.com",
+      projectId: "synthbits-f5cbd",
+      storageBucket: "synthbits-f5cbd.firebasestorage.app",
+      messagingSenderId: "33009829995",
+      appId: "1:33009829995:web:23cbd703a84344bca4092e",
+      measurementId: "G-0SH2Y7P1ZR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Elements
+    const emailAuthForm = document.getElementById('emailAuthForm');
+    const anonAuthForm = document.getElementById('anonAuthForm');
+    const emailInput = document.getElementById('emailInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const togglePassword = document.getElementById('togglePassword');
+    const emailSubmitBtn = document.getElementById('emailSubmitBtn');
+    const emailErrorAlert = document.getElementById('emailErrorAlert');
+
+    const usernameInput = document.getElementById('usernameInput');
+    const anonSubmitBtn = document.getElementById('anonSubmitBtn');
+    const anonErrorAlert = document.getElementById('anonErrorAlert');
+
+    const toggleAuthModeBtn = document.getElementById('toggleAuthModeBtn');
+    const switchPromptText = document.getElementById('switchPromptText');
+    const switchToAnonBtn = document.getElementById('switchToAnonBtn');
+    const switchToEmailLink = document.getElementById('switchToEmailLink');
+    const modeSwitchContainer = document.getElementById('modeSwitchContainer');
+    const navTitle = document.getElementById('navTitle');
+
+    let isSignUpMode = false;
+    let isAnonymousView = false;
+
+    // Password Toggle Visibility
+    togglePassword.addEventListener('change', function() {
+      passwordInput.type = this.checked ? 'text' : 'password';
+    });
+
+    // Switch between Email Login & Email Sign Up
+    toggleAuthModeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      isSignUpMode = !isSignUpMode;
+      if (isSignUpMode) {
+        emailSubmitBtn.textContent = "Sign Up";
+        switchPromptText.textContent = "Already a member?";
+        toggleAuthModeBtn.textContent = "Login Now";
+      } else {
+        emailSubmitBtn.textContent = "Login";
+        switchPromptText.textContent = "Not a member?";
+        toggleAuthModeBtn.textContent = "Sign up Now";
+      }
+      emailErrorAlert.style.display = 'none';
+    });
+
+    // Switch to Page 2: Anonymous Login View
+    switchToAnonBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      isAnonymousView = true;
+      emailAuthForm.style.display = 'none';
+      anonAuthForm.style.display = 'flex';
+      modeSwitchContainer.style.display = 'none';
+      navTitle.textContent = "KooBits Guest Login";
+      usernameInput.setAttribute('required', 'true');
+      emailInput.removeAttribute('required');
+      passwordInput.removeAttribute('required');
+    });
+
+    // Switch back to Page 1: Email View via Warning Link
+    switchToEmailLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      isAnonymousView = false;
+      anonAuthForm.style.display = 'none';
+      emailAuthForm.style.display = 'flex';
+      modeSwitchContainer.style.display = 'block';
+      navTitle.textContent = "KooBits Login";
+      usernameInput.removeAttribute('required');
+      emailInput.setAttribute('required', 'true');
+      passwordInput.setAttribute('required', 'true');
+    });
+
+    // Handle Email Login / Sign Up Submission
+    emailAuthForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      emailErrorAlert.style.display = 'none';
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      emailSubmitBtn.disabled = true;
+      emailSubmitBtn.textContent = isSignUpMode ? "Signing Up..." : "Logging in...";
+
+      try {
+        if (isSignUpMode) {
+          await createUserWithEmailAndPassword(auth, email, password);
+        } else {
+          await signInWithEmailAndPassword(auth, email, password);
+        }
+        window.location.href = 'dashboard.html';
+      } catch (error) {
+        emailErrorAlert.textContent = error.message.replace("Firebase: ", "");
+        emailErrorAlert.style.display = 'block';
+        emailSubmitBtn.disabled = false;
+        emailSubmitBtn.textContent = isSignUpMode ? "Sign Up" : "Login";
+      }
+    });
+
+    // Handle Anonymous Login Form Submission
+    anonAuthForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      anonErrorAlert.style.display = 'none';
+
+      const username = usernameInput.value.trim();
+      if (!username) return;
+
+      anonSubmitBtn.disabled = true;
+      anonSubmitBtn.textContent = "Entering...";
+
+      try {
+        const userCredential = await signInAnonymously(auth);
+        await updateProfile(userCredential.user, {
+          displayName: username
+        });
+        window.location.href = 'dashboard.html';
+      } catch (error) {
+        anonErrorAlert.textContent = error.message.replace("Firebase: ", "");
+        anonErrorAlert.style.display = 'block';
+        anonSubmitBtn.disabled = false;
+        anonSubmitBtn.textContent = "Start Playing";
+      }
+    });
+  </script>
+</body>
+</html>

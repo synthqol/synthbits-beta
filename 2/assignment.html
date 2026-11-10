@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignments - KooBits</title>
+  <!-- Google Fonts for typography -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@600;800;900&display=swap">
+  <!-- FontAwesome Icons for small caret arrows -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ==================== SUB-HEADER (ASSIGNMENTS THEME) ==================== */
+    .sub-header {
+      background: #a3e635; /* Light lime green matching reference */
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      position: relative;
+    }
+
+    .btn-back {
+      background-color: rgba(0, 0, 0, 0.15);
+      color: #ffffff;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 18px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background-color 0.2s;
+      z-index: 2;
+    }
+
+    .btn-back:hover {
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+
+    /* Center Pill Switcher */
+    .tab-pill-container {
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      gap: 4px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 6px 20px;
+      border-radius: 16px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #3f6212;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .tab-btn.active {
+      background: #ffffff;
+      color: #1e293b;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    /* Right Assigned Year Selector */
+    .header-right-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #3f6212;
+      z-index: 2;
+    }
+
+    .year-select {
+      background: #ffffff;
+      border: 1px solid #d9f99d;
+      border-radius: 14px;
+      padding: 6px 12px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #334155;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* ==================== FILTER BAR ==================== */
+    .filter-bar {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+    }
+
+    .filter-label {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #64748b;
+    }
+
+    .assigned-select {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #334155;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .btn-refresh {
+      margin-left: auto;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-refresh:hover {
+      background: #f8fafc;
+    }
+
+    /* ==================== CONTENT AREA ==================== */
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+      gap: 16px;
+    }
+
+    .empty-state-graphic {
+      width: 140px;
+      height: auto;
+      opacity: 0.85;
+      margin-bottom: 8px;
+    }
+
+    .empty-text {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 768px) {
+      .sub-header {
+        flex-direction: column;
+        height: auto;
+        padding: 12px;
+        gap: 10px;
+      }
+      .tab-pill-container {
+        position: static;
+        transform: none;
+      }
+      .header-right-group {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVBAR -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo" onclick="window.location.href='dashboard.html'">
+        <img src="icon.png" alt="KooBits Icon" class="logo-img">
+      </div>
+      <div class="badge-school">
+        <img src="school.png" alt="School" class="nav-png-icon" style="width:16px; height:16px;">
+        School <i class="fa-solid fa-caret-down"></i>
+      </div>
+    </div>
+
+    <nav class="nav-center">
+      <a href="dashboard.html" class="nav-icon-link" title="Home">
+        <img src="home.png" alt="Home" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Report">
+        <img src="report.png" alt="Report" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Leaderboard">
+        <img src="leaderboard.png" alt="Leaderboard" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Friends">
+        <img src="friends.png" alt="Friends" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Awards">
+        <img src="awards.png" alt="Awards" class="nav-png-icon">
+      </a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="streak-pill">
+        <span>0</span> 
+        <img src="streak.gif" alt="Streak" class="nav-gif-icon" style="width:16px; height:16px;">
+      </div>
+      <div class="nav-icon-link" title="Menu" onclick="toggleMenuModal()">
+        <img src="menu.png" alt="Menu" class="nav-png-icon">
+      </div>
+      <div class="user-avatar-mini" onclick="window.location.href='dashboard.html'">
+        <img src="user.png" alt="User Avatar" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+    </div>
+  </header>
+
+  <!-- SUB-HEADER BAR -->
+  <div class="sub-header">
+    <a href="dashboard.html" class="btn-back">
+      <i class="fa-solid fa-chevron-left"></i> Back
+    </a>
+    
+    <div class="tab-pill-container">
+      <button class="tab-btn active" id="tabAll" onclick="switchTab('all')">All</button>
+      <button class="tab-btn" id="tabComplete" onclick="switchTab('complete')">Complete</button>
+      <button class="tab-btn" id="tabIncomplete" onclick="switchTab('incomplete')">Incomplete</button>
+    </div>
+
+    <div class="header-right-group">
+      <span>Assigned</span>
+      <select class="year-select">
+        <option>2026</option>
+        <option>2025</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- SECONDARY FILTER BAR -->
+  <div class="filter-bar">
+    <span class="filter-label">Assigned by</span>
+    <select class="assigned-select">
+      <option>All</option>
+      <option>Teacher</option>
+      <option>Parent</option>
+    </select>
+
+    <button class="btn-refresh" onclick="refreshAssignments()">
+      <i class="fa-solid fa-rotate"></i> Refresh
+    </button>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="main-container">
+    <svg class="empty-state-graphic" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 2V8H20" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="10" cy="13" r="1" fill="#cbd5e1"/>
+      <circle cx="14" cy="13" r="1" fill="#cbd5e1"/>
+      <path d="M10 17C10.5 17.5 11.5 18 12 18C12.5 18 13.5 17.5 14 17" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <div class="empty-text">Nothing to see here - yet.</div>
+  </main>
+
+  <!-- ================= MENU OVERLAY MODAL ================= -->
+  <div id="menuModal" class="menu-modal-overlay">
+    <header class="navbar">
+      <div class="nav-left">
+        <div class="logo" onclick="toggleMenuModal(); window.location.href='dashboard.html';">
+          <img src="icon.png" alt="KooBits Icon" class="logo-img">
+        </div>
+        <div class="badge-school">
+          <img src="school.png" alt="School" class="nav-png-icon" style="width:16px; height:16px;">
+          School <i class="fa-solid fa-caret-down"></i>
+        </div>
+      </div>
+
+      <nav class="nav-center">
+        <a href="dashboard.html" class="nav-icon-link" title="Home">
+          <img src="home.png" alt="Home" class="nav-png-icon">
+        </a>
+        <a href="#" class="nav-icon-link" title="Report">
+          <img src="report.png" alt="Report" class="nav-png-icon">
+        </a>
+        <a href="leaderboard.html" class="nav-icon-link" title="Leaderboard">
+          <img src="leaderboard.png" alt="Leaderboard" class="nav-png-icon">
+        </a>
+        <a href="friends.html" class="nav-icon-link" title="Friends">
+          <img src="friends.png" alt="Friends" class="nav-png-icon">
+        </a>
+        <a href="awards.html" class="nav-icon-link" title="Awards">
+          <img src="awards.png" alt="Awards" class="nav-png-icon">
+        </a>
+      </nav>
+
+      <div class="nav-right">
+        <div class="streak-pill">
+          <span>0</span> 
+          <img src="streak.gif" alt="Streak" class="nav-gif-icon" style="width:16px; height:16px;">
+        </div>
+        <div class="nav-icon-link" title="Menu" onclick="toggleMenuModal()">
+          <img src="menu.png" alt="Menu" class="nav-png-icon">
+        </div>
+        <div class="user-avatar-mini" onclick="toggleMenuModal(); window.location.href='dashboard.html';">
+          <img src="user.png" alt="User Avatar" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+      </div>
+    </header>
+
+    <div class="menu-grid-content">
+      <div class="menu-item" onclick="window.location.href='multiplayer.html'">
+        <div class="menu-item-icon-wrap"><img src="multiplayer.png"></div>
+        <span>Peer Challenge</span>
+      </div>
+      <div class="menu-item" onclick="window.location.href='daily-challenge.html'">
+        <div class="menu-item-icon-wrap"><img src="mission.png"></div>
+        <span>Daily Challenge</span>
+      </div>
+      <div class="menu-item" onclick="window.location.href='events.html'">
+        <div class="menu-item-icon-wrap"><img src="events.png"></div>
+        <span>Sunday Mini</span>
+      </div>
+      <div class="menu-item" onclick="window.location.href='assignment.html'">
+        <div class="menu-item-icon-wrap"><img src="assignment.png"></div>
+        <span>Assignment</span>
+      </div>
+      <div class="menu-item" onclick="window.location.href='brain-games.html'">
+        <div class="menu-item-icon-wrap"><img src="brain-games.svg"></div>
+        <span>Brain Games</span>
+      </div>
+      <div class="menu-item" onclick="window.location.href='storymath.html'">
+        <div class="menu-item-icon-wrap"><img src="story.svg"></div>
+        <span>StoryMath</span>
+      </div>
+      <div class="menu-item" onclick="window.location.href='mission.html'">
+        <div class="menu-item-icon-wrap"><img src="mission.png"></div>
+        <span>Mission</span>
+      </div>
+      <div class="menu-item" onclick="logoutUser()">
+        <div class="menu-item-icon-wrap"><i class="fa-solid fa-right-from-bracket" style="font-size: 24px; color: #ffffff;"></i></div>
+        <span>Logout</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tabName) {
+      document.getElementById('tabAll').classList.remove('active');
+      document.getElementById('tabComplete').classList.remove('active');
+      document.getElementById('tabIncomplete').classList.remove('active');
+
+      if(tabName === 'all') document.getElementById('tabAll').classList.add('active');
+      if(tabName === 'complete') document.getElementById('tabComplete').classList.add('active');
+      if(tabName === 'incomplete') document.getElementById('tabIncomplete').classList.add('active');
+    }
+
+    function refreshAssignments() {
+      alert('Refreshing assignments list...');
+    }
+
+    function toggleMenuModal() {
+      const modal = document.getElementById('menuModal');
+      if (modal.classList.contains('active')) {
+        modal.classList.remove('active');
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      } else {
+        modal.style.display = 'flex';
+        setTimeout(() => {
+          modal.classList.add('active');
+        }, 10);
+      }
+    }
+
+    function logoutUser() {
+      window.location.href = 'index.html';
+    }
+  </script>
+
+</body>
+</html>
