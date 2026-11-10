@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KooBits Brain Games</title>
+  
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@700;800;900&display=swap">
+  
+  <!-- FontAwesome for Top Nav Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==================== BASE LAYOUT ==================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Helper for PNG Icons in Navbar */
+    .nav-png-icon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.1s;
+    }
+    
+    /* Helper for GIF Icons in Navbar */
+    .nav-gif-icon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.1s;
+    }
+
+    /* ==================== TOP NAVIGATION BAR ==================== */
+    .navbar {
+      background-color: #2b303a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1.2rem;
+      height: 56px;
+      z-index: 100;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .logo-img {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .badge-school {
+      background-color: #2196f3;
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-icon-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform 0.1s, opacity 0.2s;
+      opacity: 0.85;
+      cursor: pointer;
+    }
+
+    .nav-icon-link:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Streak Pill */
+    .streak-pill {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 3px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #ffffff;
+    }
+
+    .user-avatar-mini {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #cccccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    /* ==================== MAIN GAME AREA ==================== */
+    .main-content {
+      flex: 1; /* Takes up remaining vertical space below nav */
+      background-color: #00a0dc; /* KooBits Ocean Cyan */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      width: 100%;
+    }
+
+    /* TOP LOGO BANNER */
+    .top-logo-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding-top: 10px;
+      z-index: 20;
+    }
+
+    .top-logo {
+      width: 220px;
+      max-width: 28vw;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
+    }
+
+    /* MAP VIEWPORT */
+    .island-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 960px;
+      aspect-ratio: 16 / 9;
+      margin-top: -10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .island-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* ==================== VIEW 1: START BUTTON OVERLAY ==================== */
+    #startOverlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+
+    .btn-start {
+      position: absolute;
+      top: 48%;
+      left: 8%;
+      
+      background: linear-gradient(180deg, #ff8c1a 0%, #ff5200 100%);
+      color: #ffffff;
+      font-family: 'Fredoka', cursive;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-align: center;
+      
+      padding: 12px 60px;
+      border-radius: 40px;
+      border: 3.5px solid #ffffff;
+      box-shadow: 
+        0 6px 0 #b33600,
+        0 8px 15px rgba(0, 0, 0, 0.3);
+      
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      outline: none;
+    }
+
+    .btn-start::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      right: 18px;
+      width: 14px;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+    }
+
+    .btn-start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #b33600, 0 12px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .btn-start:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #b33600, 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ==================== VIEW 2: CATEGORY CIRCLES OVERLAY ==================== */
+    #selectionOverlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      z-index: 10;
+    }
+
+    .cat-circle {
+      position: absolute;
+      width: 14%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      
+      color: #ffffff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      line-height: 1.15;
+      padding: 6px;
+      cursor: pointer;
+      
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+      border: 3.5px solid #ffffff;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .cat-circle:hover {
+      transform: scale(1.12);
+      filter: brightness(1.1);
+      z-index: 15;
+    }
+
+    .cat-circle:active {
+      transform: scale(0.95);
+    }
+
+    .bg-memory { background-color: #00a838; }          
+    .bg-flexibility { background-color: #ffb100; }     
+    .bg-speed { background-color: #ff4d00; }           
+    .bg-adventure { background-color: #9c27b0; }       
+    .bg-attention { background-color: #e91e63; }       
+    .bg-problemsolving { background-color: #0091ea; }  
+
+    .pos-memory { top: 44%; left: 8%; }
+    .pos-flexibility { top: 36%; left: 38%; }
+    .pos-speed { top: 32%; left: 64%; }
+    .pos-adventure { top: 60%; left: 28%; }
+    .pos-attention { top: 62%; left: 58%; }
+    .pos-problemsolving { top: 55%; left: 78%; }
+
+    /* ==================== MOBILE ADJUSTMENTS ==================== */
+    @media (max-width: 768px) {
+      .nav-center { display: none; } /* Hide icons on small screens */
+      .top-logo { width: 160px; }
+      .btn-start { font-size: 1.1rem; padding: 6px 30px; }
+      .cat-circle { font-size: 0.75rem; border-width: 2px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVBAR -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo">
+        <img src="icon.png" alt="KooBits Icon" class="logo-img">
+      </div>
+      <div class="badge-school">
+        <img src="School.png" alt="School" class="nav-png-icon" style="width:16px; height:16px;">
+        School <i class="fa-solid fa-caret-down"></i>
+      </div>
+    </div>
+
+    <nav class="nav-center">
+      <a href="#" class="nav-icon-link" title="Home">
+        <img src="Home.png" alt="Home" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Report">
+        <img src="Report.png" alt="Report" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Leaderboard">
+        <img src="Leaderboard.png" alt="Leaderboard" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Friends">
+        <img src="Friends.png" alt="Friends" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Awards">
+        <img src="Awards.png" alt="Awards" class="nav-png-icon">
+      </a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="streak-pill">
+        <span>0</span> 
+        <img src="Streak.gif" alt="Streak" class="nav-gif-icon" style="width:16px; height:16px;">
+      </div>
+      <div class="nav-icon-link" title="Menu">
+        <img src="Menu.png" alt="Menu" class="nav-png-icon">
+      </div>
+      <div class="user-avatar-mini">
+        <img src="User.png" alt="User Avatar" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <main class="main-content">
+    
+    <!-- Top Centered Logo -->
+    <div class="top-logo-container">
+      <img src="brain-games.png" alt="KooBits Brain Games" class="top-logo">
+    </div>
+
+    <!-- Island Map Wrapper -->
+    <div class="island-wrapper">
+      <img src="map.png" alt="KooBits Island Map" class="island-bg">
+
+      <!-- VIEW 1: START BUTTON -->
+      <div id="startOverlay">
+        <button class="btn-start" onclick="showGamesSelection()">START</button>
+      </div>
+
+      <!-- VIEW 2: CATEGORY CIRCLES -->
+      <div id="selectionOverlay">
+        <div class="cat-circle bg-memory pos-memory" onclick="launchGame('math-kooisland.html')">Memory</div>
+        <div class="cat-circle bg-flexibility pos-flexibility" onclick="launchGame('math-kooisland.html')">Flexibility</div>
+        <div class="cat-circle bg-speed pos-speed" onclick="launchGame('math-kooisland.html')">Speed</div>
+        <div class="cat-circle bg-adventure pos-adventure" onclick="launchGame('math-kooisland.html')">Adventure</div>
+        <div class="cat-circle bg-attention pos-attention" onclick="launchGame('math-kooisland.html')">Attention</div>
+        <div class="cat-circle bg-problemsolving pos-problemsolving" onclick="launchGame('math-kooisland.html')">Problem<br>Solving</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- AUDIO ELEMENT -->
+  <audio id="startAudio" src="kooisland.mp3" preload="auto"></audio>
+
+  <script>
+    const audio = document.getElementById('startAudio');
+    const startOverlay = document.getElementById('startOverlay');
+    const selectionOverlay = document.getElementById('selectionOverlay');
+
+    function showGamesSelection() {
+      // Play start sound effect
+      audio.play().catch(err => console.log("Audio play prevented:", err));
+
+      // Switch to category layout on map
+      setTimeout(() => {
+        startOverlay.style.display = 'none';
+        selectionOverlay.style.display = 'block';
+      }, 250);
+    }
+
+    function launchGame(gameUrl) {
+      window.location.href = gameUrl;
+    }
+  </script>
+
+</body>
+</html>

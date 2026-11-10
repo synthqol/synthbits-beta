@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brain Games - KooBits</title>
+  <!-- Google Fonts for typography -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@600;800;900&display=swap">
+  <!-- FontAwesome Icons for small caret arrows -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==================== BASE STYLES ==================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: #f8fafc;
+      color: #333333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Helper for PNG Icons in Navbar */
+    .nav-png-icon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.1s;
+    }
+    
+    .nav-gif-icon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.1s;
+    }
+
+    /* ==================== TOP NAVBAR ==================== */
+    .navbar {
+      background-color: #2b303a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1.2rem;
+      height: 56px;
+      z-index: 10;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .logo-img {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .badge-school {
+      background-color: #2196f3;
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-icon-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform 0.1s, opacity 0.2s;
+      opacity: 0.85;
+    }
+
+    .nav-icon-link:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Streak Pill */
+    .streak-pill {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 3px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #ffffff;
+    }
+
+    .user-avatar-mini {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #cccccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    /* ==================== PAGE SUB-HEADER ==================== */
+    .sub-header {
+      background-color: #00a3ff;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      position: relative;
+    }
+
+    .btn-back {
+      background-color: #1a88db;
+      color: #ffffff;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 18px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .btn-back:hover {
+      background-color: #156eb3;
+    }
+
+    .header-title-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .brain-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .header-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* ==================== CONTENT AREA ==================== */
+    .main-container {
+      max-width: 960px;
+      width: 100%;
+      margin: 30px auto;
+      padding: 0 16px;
+      flex: 1;
+    }
+
+    .game-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px;
+      gap: 24px;
+    }
+
+    .card-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex: 1;
+    }
+
+    .game-thumbnail {
+      width: 180px;
+      height: 180px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .game-details {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .game-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #2d3748;
+    }
+
+    .hours-info {
+      font-size: 0.95rem;
+      color: #718096;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .crown-icon {
+      color: #ffb100;
+      font-size: 0.9rem;
+    }
+
+    .card-right {
+      display: flex;
+      align-items: center;
+      padding-left: 24px;
+      border-left: 1px solid #edf2f7;
+    }
+
+    .btn-play {
+      background-color: #ff6b2b;
+      color: #ffffff;
+      border: none;
+      width: 180px;
+      padding: 12px 0;
+      border-radius: 24px;
+      font-family: 'Fredoka', cursive;
+      font-size: 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(255, 107, 43, 0.3);
+      transition: transform 0.1s, background-color 0.2s;
+      text-align: center;
+    }
+
+    .btn-play:hover {
+      transform: scale(1.03);
+      background-color: #f05a1a;
+    }
+
+    @media (max-width: 640px) {
+      .game-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .card-left {
+        flex-direction: column;
+        text-align: center;
+      }
+      .card-right {
+        border-left: none;
+        border-top: 1px solid #edf2f7;
+        padding-left: 0;
+        padding-top: 20px;
+        justify-content: center;
+      }
+      .header-title-container {
+        position: static;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVBAR -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo" onclick="window.location.href='index.html'">
+        <img src="icon.png" alt="KooBits Icon" class="logo-img">
+      </div>
+      <div class="badge-school">
+        <img src="School.png" alt="School" class="nav-png-icon" style="width:16px; height:16px;">
+        School <i class="fa-solid fa-caret-down"></i>
+      </div>
+    </div>
+
+    <nav class="nav-center">
+      <a href="index.html" class="nav-icon-link" title="Home">
+        <img src="Home.png" alt="Home" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Report">
+        <img src="Report.png" alt="Report" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Leaderboard">
+        <img src="Leaderboard.png" alt="Leaderboard" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Friends">
+        <img src="Friends.png" alt="Friends" class="nav-png-icon">
+      </a>
+      <a href="#" class="nav-icon-link" title="Awards">
+        <img src="Awards.png" alt="Awards" class="nav-png-icon">
+      </a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="streak-pill">
+        <span>0</span> 
+        <img src="Streak.gif" alt="Streak" class="nav-gif-icon" style="width:16px; height:16px;">
+      </div>
+      <div class="nav-icon-link" title="Menu">
+        <img src="Menu.png" alt="Menu" class="nav-png-icon">
+      </div>
+      <div class="user-avatar-mini">
+        <img src="User.png" alt="User Avatar" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+    </div>
+  </header>
+
+  <!-- SUB-HEADER BAR -->
+  <div class="sub-header">
+    <a href="index.html" class="btn-back">
+      <i class="fa-solid fa-chevron-left"></i> Back
+    </a>
+    
+    <div class="header-title-container">
+      <img src="brain-games.svg" alt="Brain Games Icon" class="brain-icon">
+      <h1 class="header-title">Brain Games</h1>
+    </div>
+
+    <div style="width: 70px;"><!-- Empty spacer to balance header flexbox --></div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="main-container">
+
+    <!-- GAME ITEM CARD -->
+    <div class="game-card">
+      <div class="card-left">
+        <img src="brain-games.svg" alt="Brain Games - Math" class="game-thumbnail">
+        <div class="game-details">
+          <h2 class="game-title">Brain Games - Math</h2>
+          <div class="hours-info">
+            <span>Open Hours:</span>
+            <span>8am to 8pm, Daily (</span>
+            <i class="fa-solid fa-crown crown-icon"></i>
+            <span>Premium Plan )</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-right">
+        <button class="btn-play" onclick="playGame()">Play</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function playGame() {
+      window.location.href = 'kooisland.html';
+    }
+  </script>
+
+</body>
+</html>

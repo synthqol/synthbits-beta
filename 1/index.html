@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KooBits Login</title>
+  <!-- Google Fonts for typography -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==================== BASE STYLES ==================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      background-color: #ffffff;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* ==================== CONTAINER LAYOUT ==================== */
+    .page-wrapper {
+      display: flex;
+      width: 100vw;
+      min-height: 100vh;
+    }
+
+    /* Left Panel (Desktop Leaderboard & Illustration) */
+    .left-panel {
+      width: 40%;
+      min-width: 320px;
+      background-color: #ffffff;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid #eaeaea;
+    }
+
+    .cp-header {
+      color: #7b78de;
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+    }
+
+    .cp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    .cp-table th {
+      text-align: left;
+      color: #888;
+      font-weight: 700;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #efefef;
+    }
+
+    .cp-table td {
+      padding: 8px 0;
+      color: #555;
+      font-weight: 600;
+      border-bottom: 1px solid #f8f8f8;
+    }
+
+    .flag-icon {
+      width: 16px;
+      height: 12px;
+      display: inline-block;
+      vertical-align: middle;
+      border-radius: 2px;
+    }
+
+    .illustration-area {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+
+    .icon-img {
+      width: 180px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Right Panel (Main Login Page) */
+    .right-panel {
+      flex: 1;
+      background: radial-gradient(circle at 50% 30%, #a4b2ff 0%, #7b83f5 50%, #686de0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Top Links */
+    .top-nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.85rem;
+      font-weight: 700;
+      z-index: 5;
+    }
+
+    .top-nav a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    /* Sparkles / Background Accents */
+    .sparkle {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.8);
+      pointer-events: none;
+    }
+
+    .sparkle-1 { top: 20%; left: 15%; font-size: 0.5rem; }
+    .sparkle-2 { top: 65%; right: 12%; font-size: 1.8rem; }
+    .sparkle-3 { bottom: 20%; left: 20%; font-size: 0.6rem; }
+    .sparkle-4 { bottom: 25%; right: 25%; font-size: 0.4rem; }
+
+    /* ==================== LOGIN FORM CARD ==================== */
+    .login-container {
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 5;
+      margin: auto 0;
+    }
+
+    /* Logo Image Header Styling */
+    .brand-logo-img {
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 24px;
+    }
+
+    /* Inner Card Wrapper (Desktop Floating Card Style) */
+    .login-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 30px 24px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .input-group {
+      width: 100%;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      font-size: 0.95rem;
+      color: #444;
+      font-weight: 600;
+      background: #ffffff;
+    }
+
+    .input-field::placeholder {
+      color: #a0a5ba;
+    }
+
+    .password-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .password-wrapper .input-field {
+      flex: 1;
+    }
+
+    .show-password {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .show-password input {
+      cursor: pointer;
+      width: 15px;
+      height: 15px;
+      accent-color: #686de0;
+    }
+
+    .need-help {
+      align-self: flex-start;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+
+    .btn-login {
+      width: 100%;
+      background: #ffa800;
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 25px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 168, 0, 0.4);
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 6px;
+    }
+
+    .btn-login:hover {
+      background: #ff9900;
+      transform: translateY(-1px);
+    }
+
+    /* Signup & Footer Links */
+    .signup-text {
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .signup-text a {
+      color: #ffffff;
+      text-decoration: underline;
+      font-weight: 800;
+    }
+
+    .footer-link {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-bottom: 10px;
+      z-index: 5;
+    }
+
+    /* Floating Support Button */
+    .btn-support {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: #ff5900;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+
+    /* ==================== RESPONSIVE DESIGN ==================== */
+    @media (max-width: 768px) {
+      .left-panel {
+        display: none;
+      }
+
+      .login-card {
+        background: transparent;
+        backdrop-filter: none;
+        border: none;
+        padding: 0;
+      }
+
+      .btn-support {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- LEFT PANEL: CP SUBMISSIONS & ICON -->
+    <aside class="left-panel">
+      <div>
+        <div class="cp-header">Latest CP Submitted</div>
+        <table class="cp-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>School</th>
+              <th>Latest CP</th>
+              <th>Submission Time</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mohamed*****</td>
+              <td>🏫</td>
+              <td>3</td>
+              <td>10:00, 2026-Aug-02</td>
+              <td>🇰🇪</td>
+            </tr>
+            <tr>
+              <td>Mohamed*****</td>
+              <td>🏫</td>
+              <td>2</td>
+              <td>10:00, 2026-Aug-02</td>
+              <td>🇰🇪</td>
+            </tr>
+            <tr>
+              <td>Abigail*****</td>
+              <td>🦁</td>
+              <td>1</td>
+              <td>08:59, 2026-Aug-02</td>
+              <td>🇮🇩</td>
+            </tr>
+            <tr>
+              <td>Lee Lam*****</td>
+              <td>🛡️</td>
+              <td>1</td>
+              <td>08:59, 2026-Aug-02</td>
+              <td>🇭🇰</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="illustration-area">
+        <img src="icon.png" alt="App Icon" class="icon-img">
+      </div>
+    </aside>
+
+    <!-- RIGHT PANEL: MAIN LOGIN SCREEN -->
+    <main class="right-panel">
+
+      <!-- SPARKLE ACCENTS -->
+      <div class="sparkle sparkle-1">✦</div>
+      <div class="sparkle sparkle-2">✦</div>
+      <div class="sparkle sparkle-3">✦</div>
+      <div class="sparkle sparkle-4">✦</div>
+
+      <!-- TOP BAR LINKS -->
+      <div class="top-nav">
+        <span>Parent App</span>
+        <a href="#"><i class="fa-solid fa-house"></i></a>
+      </div>
+
+      <!-- FORM CONTAINER -->
+      <div class="login-container">
+
+        <!-- LOGO IMAGE HEADER -->
+        <img src="icon.png" alt="KooBits Logo" class="brand-logo-img">
+
+        <!-- FORM CARD WITH REDIRECT LOGIC -->
+        <form class="login-card" id="loginForm">
+          <div class="input-group">
+            <input type="text" id="loginId" class="input-field" placeholder="Enter your Login ID" required>
+          </div>
+
+          <div class="input-group password-wrapper">
+            <input type="password" id="passwordInput" class="input-field" placeholder="Enter your password" required>
+            <label class="show-password">
+              <input type="checkbox" id="togglePassword"> Show
+            </label>
+          </div>
+
+          <a href="#" class="need-help">Need Help?</a>
+
+          <button type="submit" class="btn-login">Login</button>
+        </form>
+
+        <div class="signup-text">
+          Not a member? <a href="#">Sign up Now</a>
+        </div>
+
+      </div>
+
+      <!-- FOOTER ACCENT -->
+      <a class="footer-link">Forgot Your Parent Account Password?</a>
+
+      <!-- FLOATING SUPPORT BUTTON -->
+      <button class="btn-support">
+        <i class="fa-solid fa-circle-question"></i> Support
+      </button>
+
+    </main>
+
+  </div>
+
+  <!-- JAVASCRIPT FOR TOGGLE PASSWORD & REDIRECT -->
+  <script>
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginForm = document.getElementById('loginForm');
+
+    // Toggle Password Visibility
+    togglePassword.addEventListener('change', function() {
+      if (this.checked) {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    });
+
+    // Handle Login Submission & Redirect
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevents standard page reload
+      
+      // Redirect to dashboard.html
+      window.location.href = 'dashboard.html';
+    });
+  </script>
+
+</body>
+</html>
